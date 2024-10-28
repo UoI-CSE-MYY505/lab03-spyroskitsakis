@@ -100,6 +100,32 @@ outShowRowLoop:
 rgb888_to_rgb565:
 # ----------------------------------------
 # Write your code here.
+add to, zero,zero
+rowLoop:
+    bge t0,a2,outRowLoop
+    add t1,zero,zero
+columnLoop:
+    bge t0,a2,outColumnLoop
+    lbu  t3, 1(a0)
+    lbu  t4, 2(a0)  
+    andi t2, t2, 0xf8
+    slli t2, t2, 8
+    andi t3, t3, 0xfc
+    slli t3, t3, 3
+    srli t4, t4, 3
+    or   t2, t2, t3
+    or   t2, t2, t4
+    sh   t2,0(a3)
+output
+    addi a0, a0, 3
+    addi a3, a3, 2
+    addi t1, t1, 1
+    j    columnLoop
+outColumnLoop:
+    addi t0,t0,1
+    j rowLoop
+outRowLoop:
+    jalr zero,ra,0
 # You may move the "return" instruction (jalr zero, ra, 0).
     jalr zero, ra, 0
 
